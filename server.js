@@ -36,7 +36,7 @@ const pool = new Pool({ connectionString: process.env.DATABASE_URL });
 global.db = pool;
 
 // ---------- JWT ----------
-const JWT_SECRET = process.env.JWT_SECRET || 'supersecret';
+const JWT_SECRET = process.env.JWT_SECRET || '61b81ead50664233586d65a6704736a43f9102a2522bb12f6ee7243bbeaad56b';
 
 // ---------- Controllers ----------
 const userCtrl = require('./controllers/userController');
