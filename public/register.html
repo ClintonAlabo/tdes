@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Register - TDES</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="top-bar">
+    <div class="logo">TDES</div>
+    <nav><a href="index.html">Home</a></nav>
+  </header>
+
+  <div class="main">
+    <div class="card">
+      <h2>Create Your Profile</h2>
+      <form id="registerForm" enctype="multipart/form-data">
+        <input type="text" name="name" placeholder="Full Name" required />
+        <input type="email" name="email" placeholder="Email" required />
+        <input type="password" name="password" placeholder="Password" required />
+        <input type="number" name="age" placeholder="Age" />
+        <textarea name="education" placeholder="Education"></textarea>
+        <input type="text" name="specialization" placeholder="Specialization" />
+        <input type="text" name="occupation" placeholder="Current Occupation" />
+        <textarea name="skills" placeholder="Skills (comma-separated)"></textarea>
+        <textarea name="talents" placeholder="Talents"></textarea>
+        <textarea name="employmentHistory" placeholder="Employment History"></textarea>
+        <input type="file" name="documents" multiple accept=".pdf,.doc,.docx,.jpg,.png" />
+        <button type="submit">Register</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

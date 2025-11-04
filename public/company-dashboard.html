@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Company Dashboard - TDES</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="top-bar">
+    <div class="logo">TDES</div>
+    <nav><a href="#" id="logout">Logout</a></nav>
+  </header>
+
+  <div class="sidebar">
+    <a href="company-dashboard.html">Dashboard</a>
+    <a href="search.html">Search Candidates</a>
+  </div>
+
+  <div class="main">
+    <h2>Post New Job</h2>
+    <form id="postJobForm">
+      <input type="text" name="title" placeholder="Job Title" required />
+      <textarea name="description" placeholder="Description" required></textarea>
+      <textarea name="requirements" placeholder="Requirements" required></textarea>
+      <button type="submit">Post Job</button>
+    </form>
+
+    <h2>Your Job Postings</h2>
+    <div id="companyJobs"></div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

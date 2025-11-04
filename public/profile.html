@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Profile - TDES</title>
+  <link rel="stylesheet" href="styles.css" />
+  <!-- Resume Parsing Libraries (CDN) -->
+  <script src="https://cdn.jsdelivr.net/npm/pdf-parse@1.1.1/lib/pdf-parse.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mammoth@1.6.0/mammoth.browser.min.js"></script>
+</head>
+<body>
+  <header class="top-bar">
+    <div class="logo">TDES</div>
+    <nav><a href="job-board.html">Jobs</a> <a href="notifications.html">Notifications</a> <a href="#" id="logout">Logout</a></nav>
+  </header>
+
+  <div class="sidebar">
+    <a href="profile.html">Profile</a>
+    <a href="job-board.html">Job Board</a>
+    <a href="notifications.html">Notifications</a>
+  </div>
+
+  <div class="main">
+    <div class="card">
+      <h2>Your Profile</h2>
+      <form id="profileForm" enctype="multipart/form-data">
+        <input type="text" name="name" id="name" required />
+        <input type="email" name="email" id="email" required />
+        <input type="number" name="age" id="age" />
+        <textarea name="education" id="education"></textarea>
+        <input type="text" name="specialization" id="specialization" />
+        <input type="text" name="occupation" id="occupation" />
+        <textarea name="skills" id="skills"></textarea>
+        <textarea name="talents" id="talents"></textarea>
+        <textarea name="employmentHistory" id="employmentHistory"></textarea>
+        <input type="file" name="documents" multiple />
+        <button type="submit">Update Profile</button>
+      </form>
+      <div id="documentsList"></div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

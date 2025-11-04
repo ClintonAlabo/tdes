@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Dashboard - TDES</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="top-bar">
+    <div class="logo">TDES</div>
+    <nav><a href="#" id="logout">Logout</a></nav>
+  </header>
+
+  <div class="sidebar">
+    <a href="admin-dashboard.html">Admin Home</a>
+  </div>
+
+  <div class="main">
+    <h2>Platform Statistics</h2>
+    <div id="stats" class="card"></div>
+
+    <h2>Manage User Roles</h2>
+    <form id="roleForm">
+      <input type="number" name="userId" placeholder="User ID" required />
+      <select name="role">
+        <option value="member">Member</option>
+        <option value="company">Company</option>
+        <option value="admin">Admin</option>
+        <option value="leader">Leader</option>
+      </select>
+      <button type="submit">Update Role</button>
+    </form>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

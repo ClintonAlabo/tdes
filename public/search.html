@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Search Candidates - TDES</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="top-bar">
+    <div class="logo">TDES</div>
+    <nav><a href="company-dashboard.html">Dashboard</a></nav>
+  </header>
+
+  <div class="sidebar">
+    <a href="company-dashboard.html">Dashboard</a>
+    <a href="search.html">Search</a>
+  </div>
+
+  <div class="main">
+    <h2>Search Candidates</h2>
+    <form id="searchForm">
+      <input type="text" name="skills" placeholder="Skills" />
+      <input type="text" name="education" placeholder="Education" />
+      <input type="text" name="specialization" placeholder="Specialization" />
+      <button type="submit">Search</button>
+    </form>
+    <div id="searchResults"></div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
