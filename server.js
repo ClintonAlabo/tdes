@@ -1,12 +1,12 @@
 // server.js
-require('dotenv').config();
+require('dotenv').config(); // ← MUST BE FIRST
+
 const express = require('express');
 const path = require('path');
 const cors = require('cors');
 const { Pool } = require('pg');
 const cloudinary = require('cloudinary').v2;
 const multer = require('multer');
-const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 const app = express();
@@ -28,32 +28,43 @@ cloudinary.config({
 });
 
 // ---------- Multer ----------
-const storage = multer.memoryStorage();
-const upload = multer({ storage });
+const upload = multer({ storage: multer.memoryStorage() });
 
-// ---------- DB ----------
-const pool = new Pool({ connectionString: process.env.DATABASE_URL });
+// ---------- Database ----------
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false,
+});
 global.db = pool;
 
 // ---------- JWT ----------
-const JWT_SECRET = process.env.JWT_SECRET || '61b81ead50664233586d65a6704736a43f9102a2522bb12f6ee7243bbeaad56b';
+const JWT_SECRET = process.env.JWT_SECRET || 'fallback-secret-never-use-in-production';
 
 // ---------- Controllers ----------
-const userCtrl = require('./controllers/userController');
-const jobCtrl = require('./controllers/jobController');
+const userCtrl    = require('./controllers/userController');
+const jobCtrl     = require('./controllers/jobController');
 const companyCtrl = require('./controllers/companyController');
-const adminCtrl = require('./controllers/adminController');
+const adminCtrl   = require('./controllers/adminController');
+
+// DEBUG: Check ALL handlers
+console.log('Controllers loaded:');
+console.log('  userCtrl.register:', typeof userCtrl.register);
+console.log('  companyCtrl.searchCandidates:', typeof companyCtrl.searchCandidates);
+console.log('  adminCtrl.getStats:', typeof adminCtrl.getStats);
+console.log('  adminCtrl.updateRole:', typeof adminCtrl.updateRole);
 
 // ---------- Auth Middleware ----------
 const authenticate = (req, res, next) => {
-  const token = req.headers.authorization?.split(' ')[1];
+  const authHeader = req.headers.authorization;
+  const token = authHeader?.startsWith('Bearer ') ? authHeader.split(' ')[1] : null;
+
   if (!token) return res.status(401).json({ msg: 'No token' });
 
   try {
     const decoded = jwt.verify(token, JWT_SECRET);
     req.user = decoded;
     next();
-  } catch (e) {
+  } catch (err) {
     res.status(401).json({ msg: 'Invalid token' });
   }
 };
@@ -61,6 +72,7 @@ const authenticate = (req, res, next) => {
 // ---------- API Routes ----------
 app.post('/api/register', upload.array('documents'), userCtrl.register);
 app.post('/api/login', userCtrl.login);
+
 app.get('/api/profile', authenticate, userCtrl.getProfile);
 app.put('/api/profile', authenticate, upload.array('documents'), userCtrl.updateProfile);
 
@@ -73,15 +85,24 @@ app.delete('/api/jobs/:id', authenticate, jobCtrl.deleteJob);
 app.post('/api/apply/:jobId', authenticate, userCtrl.applyJob);
 app.get('/api/applications', authenticate, userCtrl.getApplications);
 
-app.get('/api/search', companyCtrl.searchCandidates);
+app.get('/api/search', authenticate, companyCtrl.searchCandidates);
 
 app.get('/api/admin/stats', authenticate, adminCtrl.getStats);
 app.put('/api/admin/role/:userId', authenticate, adminCtrl.updateRole);
 
-// FALLBACK: Serve index.html for SPA routes (ONLY after static + API)
+// ---------- Fallback for SPA (after API) ----------
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-// ---------- Start ----------
-app.listen(PORT, () => console.log(`Server running on ${PORT}`));
+// ---------- Error Handler (Optional) ----------
+app.use((err, req, res, next) => {
+  console.error('Unhandled error:', err);
+  res.status(500).json({ msg: 'Server error' });
+});
+
+// ---------- Start Server ----------
+app.listen(PORT, () => {
+  console.log(`Server running on http://localhost:${PORT}`);
+  console.log(`Visit: http://localhost:${PORT}/index.html`);
+});
